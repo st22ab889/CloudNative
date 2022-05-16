@@ -1,0 +1,15 @@
+
+// nsf 启动, 服务端和客户端都要运行
+[root@centos7 /]# systemctl start rpcbind.service
+[root@centos7 /]# systemctl enable rpcbind 
+[root@centos7 /]# systemctl status rpcbind
+
+[root@centos7 /]# systemctl start nfs.service
+[root@centos7 /]# systemctl enable nfs
+[root@centos7 /]# systemctl status nfs
+
+// 测试nfs服务
+[root@centos7 ~]# showmount -e 192.168.32.100
+mount -t nfs 192.168.32.100:/data/k8s /nfs/data/k8s_v1_22_0
+[root@centos7 /]# touch /nfs/data/k8s_v1_22_0/test.txt
+

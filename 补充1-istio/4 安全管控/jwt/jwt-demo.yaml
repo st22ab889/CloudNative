@@ -1,0 +1,15 @@
+apiVersion: security.istio.io/v1beta1
+kind: RequestAuthentication  # 请求认证
+metadata:
+  name: jwt-demo
+  namespace: default
+spec:
+  selector:  # 针对特定的服务
+    matchLabels:
+      app: httpbin
+  jwtRules:
+  - issuer: "testing@secure.istio.io"
+    jwksUri: "https://raw.githubusercontent.com/istio/istio/release-1.6/security/tools/jwt/samples/jwks.json"
+    # jwks
+    # fromHeaders
+    # fromParams

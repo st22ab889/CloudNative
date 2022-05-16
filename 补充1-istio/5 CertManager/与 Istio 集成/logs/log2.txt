@@ -1,0 +1,273 @@
+[root@centos7 aaron]#  kubectl get clusterissuer
+NAME                  READY   AGE
+letsencrypt-prod      True    3d5h
+letsencrypt-staging   True    3d5h
+
+[root@centos7 aaron]# kubectl describe clusterissuer letsencrypt-staging
+Name:         letsencrypt-staging
+Namespace:    
+Labels:       <none>
+Annotations:  <none>
+API Version:  cert-manager.io/v1
+Kind:         ClusterIssuer
+Metadata:
+  Creation Timestamp:  2022-04-02T12:33:27Z
+  Generation:          1
+  Managed Fields:
+    API Version:  cert-manager.io/v1
+    Fields Type:  FieldsV1
+    fieldsV1:
+      f:spec:
+        .:
+        f:acme:
+          .:
+          f:email:
+          f:privateKeySecretRef:
+            .:
+            f:name:
+          f:server:
+          f:solvers:
+    Manager:      kubectl-create
+    Operation:    Update
+    Time:         2022-04-02T12:33:27Z
+    API Version:  cert-manager.io/v1
+    Fields Type:  FieldsV1
+    fieldsV1:
+      f:status:
+        .:
+        f:acme:
+          .:
+          f:lastRegisteredEmail:
+          f:uri:
+        f:conditions:
+    Manager:         controller
+    Operation:       Update
+    Subresource:     status
+    Time:            2022-04-02T12:33:29Z
+  Resource Version:  1580400
+  Self Link:         /apis/cert-manager.io/v1/clusterissuers/letsencrypt-staging
+  UID:               4a858937-1b49-4fbb-912b-253d438f6079
+Spec:
+  Acme:
+    Email:            kkk_en@163.com
+    Preferred Chain:  
+    Private Key Secret Ref:
+      Name:  letsencrypt-staging
+    Server:  https://acme-staging-v02.api.letsencrypt.org/directory
+    Solvers:
+      http01:
+        Ingress:
+          Class:  istio
+Status:
+  Acme:
+    Last Registered Email:  kkk_en@163.com
+    Uri:                    https://acme-staging-v02.api.letsencrypt.org/acme/acct/49396518
+  Conditions:
+    Last Transition Time:  2022-04-02T12:33:29Z
+    Message:               The ACME account was registered with the ACME server
+    Observed Generation:   1
+    Reason:                ACMEAccountRegistered
+    Status:                True
+    Type:                  Ready
+Events:                    <none>
+
+
+[root@centos7 aaron]#  kubectl get certificaterequest  -n istio-system
+NAME                 APPROVED   DENIED   READY   ISSUER                REQUESTOR                                         AGE
+httpbin-cert-shfrw   True                False   letsencrypt-staging   system:serviceaccount:cert-manager:cert-manager   49m
+[root@centos7 aaron]#  kubectl describe certificaterequest  httpbin-cert-shfrw  -n istio-system
+Name:         httpbin-cert-shfrw
+Namespace:    istio-system
+Labels:       <none>
+Annotations:  cert-manager.io/certificate-name: httpbin-cert
+              cert-manager.io/certificate-revision: 1
+              cert-manager.io/private-key-secret-name: httpbin-cert-pttxn
+API Version:  cert-manager.io/v1
+Kind:         CertificateRequest
+Metadata:
+  Creation Timestamp:  2022-04-05T17:34:34Z
+  Generate Name:       httpbin-cert-
+  Generation:          1
+  Managed Fields:
+    API Version:  cert-manager.io/v1
+    Fields Type:  FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:annotations:
+          .:
+          f:cert-manager.io/certificate-name:
+          f:cert-manager.io/certificate-revision:
+          f:cert-manager.io/private-key-secret-name:
+        f:generateName:
+        f:ownerReferences:
+          .:
+          k:{"uid":"d181e445-f7d7-413f-97c8-fc0e1f01a1ed"}:
+      f:spec:
+        .:
+        f:issuerRef:
+          .:
+          f:kind:
+          f:name:
+        f:request:
+    Manager:      controller
+    Operation:    Update
+    Time:         2022-04-05T17:34:34Z
+    API Version:  cert-manager.io/v1
+    Fields Type:  FieldsV1
+    fieldsV1:
+      f:status:
+        .:
+        f:conditions:
+        f:failureTime:
+    Manager:      controller
+    Operation:    Update
+    Subresource:  status
+    Time:         2022-04-05T17:35:00Z
+  Owner References:
+    API Version:           cert-manager.io/v1
+    Block Owner Deletion:  true
+    Controller:            true
+    Kind:                  Certificate
+    Name:                  httpbin-cert
+    UID:                   d181e445-f7d7-413f-97c8-fc0e1f01a1ed
+  Resource Version:        1641317
+  Self Link:               /apis/cert-manager.io/v1/namespaces/istio-system/certificaterequests/httpbin-cert-shfrw
+  UID:                     f270e982-5975-444e-8e07-5d453d23a5d8
+Spec:
+  Extra:
+    authentication.kubernetes.io/pod-name:
+      cert-manager-79d88dc59b-rnhvp
+    authentication.kubernetes.io/pod-uid:
+      dad58eb3-22ea-4cf1-b117-25cf5860ad46
+  Groups:
+    system:serviceaccounts
+    system:serviceaccounts:cert-manager
+    system:authenticated
+  Issuer Ref:
+    Kind:    ClusterIssuer
+    Name:    letsencrypt-staging
+  Request:   LS0tLS1CRUdJTiBDRVJUSUZJQ0FURSBSRVFVRVNULS0tLS0KTUlJQ3RUQ0NBWjBDQVFBd0tERW1NQ1FHQTFVRUF4TWRhSFIwY0dKcGJpNHhPVEl1TVRZNExqTXlMakV3TUM1NAphWEF1YVc4d2dnRWlNQTBHQ1NxR1NJYjNEUUVCQVFVQUE0SUJEd0F3Z2dFS0FvSUJBUUNXQ2tMcmNiM0RWWEF2Ck16V0ZEc2RESFdGdnpIMTVtUUR5TjNTRXdxR1h4RnlGTzJ1TzlLWWs2RXN3aGFub1hJSkM4cDdGNDIwYjd3UUwKcll3UU1HaVA2eU4vK1FjdjNtSWc5T2E1djVheW9iN1VoQU0yVWZrc1JOU2lEYzFYN0tCVDdrWUc1Q2tENzZQRQpmbGo3em1vSm55dHRodHVacFBQa21XZEQ1VjRvT2c3bmIrQ2RORHV0NUV1dG0vYXdwYzdGcGFKUWdnU0g2YldiCmR2WVNYK2RyWjQrYkk0Rkxodmxzelo2bzJjZWtadllNTGRjWVJRNWlTZEYrbUs0dkR6U0kzUlUyWUF5MFJ6ajMKRXU1dGJFY3ZPSFRuS1I0anRTVmYvOWxFekRoRlQwc1VLdmEwSW83U21CN1FlZ3hZNU1oRkxESHVvSGduUVRUNgpQVnJ6RE1zMUFnTUJBQUdnU0RCR0Jna3Foa2lHOXcwQkNRNHhPVEEzTUNnR0ExVWRFUVFoTUIrQ0hXaDBkSEJpCmFXNHVNVGt5TGpFMk9DNHpNaTR4TURBdWVHbHdMbWx2TUFzR0ExVWREd1FFQXdJRm9EQU5CZ2txaGtpRzl3MEIKQVFzRkFBT0NBUUVBZUZidVc5QWpSa2hHaTY2eFdwT3hVQmZxa0U5bGw5dEZ4ekhjL0RVUUFwS1pIbC9teENHTwoyajVTNHd4bkhlZldBZmxEa3BWa0RrNWlhTlRwNUp1TktlekJ2ZHlvTURFUEFsbUdBRnNTUktFS0F2ZklORVNzCmkzTDBZMTVkTmlIVkc3N2ExNVplbFovdm9mYXdNeEp2dEpudEFzTmp1cGZqM2ppM29idkQxWHQ1SjBXZkRXQTMKSk9iY1BlYng3K1dQZHk4ZUV3eXBBN3J2MWRVMlFPSDlBWnhZS0o3Z1JTeFJOYjkxZ3h2czBNa3I1YW05MUpoTwpqWVJ0SWtINHpKVUN6OVNBaklCY2NDcTRubzBxUm90eitET1ZLK2hCNUJNaHZRZXBVYXdHNTh1emdGU2tEQU9oCk5MTkZ1aWY1dnEvaU1jRUhrZWlJOUxHcElZZ0F2YnYzSFE9PQotLS0tLUVORCBDRVJUSUZJQ0FURSBSRVFVRVNULS0tLS0K
+  UID:       3eb89fed-9481-4fe7-abd0-075e395bd9e6
+  Username:  system:serviceaccount:cert-manager:cert-manager
+Status:
+  Conditions:
+    Last Transition Time:  2022-04-05T17:34:34Z
+    Message:               Certificate request has been approved by cert-manager.io
+    Reason:                cert-manager.io
+    Status:                True
+    Type:                  Approved
+    Last Transition Time:  2022-04-05T17:34:34Z
+    Message:               Failed to wait for order resource "httpbin-cert-shfrw-305099323" to become ready: order is in "invalid" state: 
+    Reason:                Failed
+    Status:                False
+    Type:                  Ready
+  Failure Time:            2022-04-05T17:35:00Z
+Events:
+  Type     Reason           Age   From          Message
+  ----     ------           ----  ----          -------
+  Normal   cert-manager.io  50m   cert-manager  Certificate request has been approved by cert-manager.io
+  Normal   OrderCreated     50m   cert-manager  Created Order resource istio-system/httpbin-cert-shfrw-305099323
+  Warning  OrderFailed      49m   cert-manager  Failed to wait for order resource "httpbin-cert-shfrw-305099323" to become ready: order is in "invalid" state:
+
+
+[root@centos7 aaron]# kubectl get challenges -n istio-system
+NAME                                      STATE     DOMAIN                          AGE
+httpbin-cert-shfrw-305099323-2269462030   invalid   httpbin.192.168.32.100.xip.io   52m
+
+
+[root@centos7 aaron]# kubectl describe challenges httpbin-cert-shfrw-305099323-2269462030 -n istio-system
+Name:         httpbin-cert-shfrw-305099323-2269462030
+Namespace:    istio-system
+Labels:       <none>
+Annotations:  <none>
+API Version:  acme.cert-manager.io/v1
+Kind:         Challenge
+Metadata:
+  Creation Timestamp:  2022-04-05T17:34:37Z
+  Finalizers:
+    finalizer.acme.cert-manager.io
+  Generation:  1
+  Managed Fields:
+    API Version:  acme.cert-manager.io/v1
+    Fields Type:  FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:finalizers:
+          .:
+          v:"finalizer.acme.cert-manager.io":
+        f:ownerReferences:
+          .:
+          k:{"uid":"5c421322-cf6b-492d-bbe2-2f9bd0a3bf0d"}:
+      f:spec:
+        .:
+        f:authorizationURL:
+        f:dnsName:
+        f:issuerRef:
+          .:
+          f:kind:
+          f:name:
+        f:key:
+        f:solver:
+          .:
+          f:http01:
+            .:
+            f:ingress:
+              .:
+              f:class:
+        f:token:
+        f:type:
+        f:url:
+        f:wildcard:
+    Manager:      controller
+    Operation:    Update
+    Time:         2022-04-05T17:34:37Z
+    API Version:  acme.cert-manager.io/v1
+    Fields Type:  FieldsV1
+    fieldsV1:
+      f:status:
+        .:
+        f:presented:
+        f:processing:
+        f:reason:
+        f:state:
+    Manager:      controller
+    Operation:    Update
+    Subresource:  status
+    Time:         2022-04-05T17:34:39Z
+  Owner References:
+    API Version:           acme.cert-manager.io/v1
+    Block Owner Deletion:  true
+    Controller:            true
+    Kind:                  Order
+    Name:                  httpbin-cert-shfrw-305099323
+    UID:                   5c421322-cf6b-492d-bbe2-2f9bd0a3bf0d
+  Resource Version:        1641313
+  Self Link:               /apis/acme.cert-manager.io/v1/namespaces/istio-system/challenges/httpbin-cert-shfrw-305099323-2269462030
+  UID:                     646d1b66-e625-45e4-84be-93b9eba9a4fb
+Spec:
+  Authorization URL:  https://acme-staging-v02.api.letsencrypt.org/acme/authz-v3/2100225898
+  Dns Name:           httpbin.192.168.32.100.xip.io
+  Issuer Ref:
+    Kind:  ClusterIssuer
+    Name:  letsencrypt-staging
+  Key:     EoaTOUdWKPSWSmNHJkAv6Fq5D5S_deL3UT7RZDZpi28.ISaU5bIdZtTY5MTpl8p4dfqlWu1cJp40W-yH40lf-20
+  Solver:
+    http01:
+      Ingress:
+        Class:  istio
+  Token:        EoaTOUdWKPSWSmNHJkAv6Fq5D5S_deL3UT7RZDZpi28
+  Type:         HTTP-01
+  URL:          https://acme-staging-v02.api.letsencrypt.org/acme/chall-v3/2100225898/uxMjRQ
+  Wildcard:     false
+Status:
+  Presented:   false
+  Processing:  false
+  Reason:      Error accepting authorization: acme: authorization error for httpbin.192.168.32.100.xip.io: 400 urn:ietf:params:acme:error:dns: DNS problem: NXDOMAIN looking up A for httpbin.192.168.32.100.xip.io - check that a DNS record exists for this domain; DNS problem: NXDOMAIN looking up AAAA for httpbin.192.168.32.100.xip.io - check that a DNS record exists for this domain
+  State:       invalid
+Events:
+  Type     Reason     Age   From          Message
+  ----     ------     ----  ----          -------
+  Normal   Started    53m   cert-manager  Challenge scheduled for processing
+  Normal   Presented  53m   cert-manager  Presented challenge using HTTP-01 challenge mechanism
+  Warning  Failed     53m   cert-manager  Accepting challenge authorization failed: acme: authorization error for httpbin.192.168.32.100.xip.io: 400 urn:ietf:params:acme:error:dns: DNS problem: NXDOMAIN looking up A for httpbin.192.168.32.100.xip.io - check that a DNS record exists for this domain; DNS problem: NXDOMAIN looking up AAAA for httpbin.192.168.32.100.xip.io - check that a DNS record exists for this domain
+[root@centos7 aaron]# 

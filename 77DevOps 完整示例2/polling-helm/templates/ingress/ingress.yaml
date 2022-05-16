@@ -1,0 +1,41 @@
+{{- if eq .Values.expose.type "ingress" }}
+{{- $ingress := .Values.expose.ingress -}}
+{{- $tls := .Values.expose.tls -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: "{{ template "polling.ingress" . }}"
+  labels:
+{{ include "polling.labels" . | indent 4 }}
+  annotations:
+{{ toYaml $ingress.annotations | indent 4 }}
+spec:
+  {{- if $tls.enabled }}
+  tls:
+  - hosts:
+    - {{ $ingress.hosts.ui }}
+    {{- if $tls.secretName }}
+    secretName: {{ $tls.secretName }}
+    {{- else }}
+    secretName: "{{ template "polling.ingress" . }}"
+    {{- end }}
+  {{- end }}
+  rules:
+  - host: {{ $ingress.hosts.ui }}
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: {{ template "polling.ui" . }}
+            port: 
+              number: 80
+      - path: /api/
+        pathType: Prefix
+        backend:
+          service:
+            name: "{{ template "polling.api" . }}"
+            port: 
+              number: 80
+{{- end }}

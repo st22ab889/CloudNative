@@ -1,0 +1,15 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: httpbin
+spec:
+  gateways:
+  - acme-gateway
+  hosts:
+  - httpbin.192.168.32.100.xip.io
+  http:
+  - route:
+    - destination:
+        host: httpbin
+        port:
+          number: 8000

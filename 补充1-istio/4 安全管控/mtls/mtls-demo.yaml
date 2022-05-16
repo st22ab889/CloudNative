@@ -1,0 +1,13 @@
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
+metadata:
+  name: mtls-demo
+  namespace: default  # 去掉namespace就是全局的，加上就是命名空间级别的
+spec:
+  selector:  # 如果配置了selector，则只会对下面匹配的服务生效（针对特定的服务），如果您没有为 selector 字段提供值，则 Istio 会将策略与策略存储范围内的所有工作负载进行匹配
+    matchLabels:
+      app: httpbin
+  mtls:
+    mode: PERMISSIVE  # 兼容模式：可以同时使用明文和加密的方式访问
+    # mode: STRICT    # 严格模式：双方必须使用 mTLS 去访问 
+    # mode: DISABLE   # 禁用双向 TLS，从安全角度来看，除非您提供自己的安全解决方案，否则请勿使用此模式

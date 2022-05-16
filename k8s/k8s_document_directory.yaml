@@ -1,0 +1,449 @@
+主页
+	Kubernetes 文档支持的版本
+入门
+	Kubernetes 发行说明和版本偏差 -> 最新版本没有这个选项.切换到v1.21版本或其它历史版本才有这个选项.
+		v1.21 发行说明
+		Kubernetes 版本及版本偏差支持策略
+	学习环境
+		-> 任务/安装工具
+	生产环境
+		容器运行时
+		Turnkey 云解决方案
+		使用部署工具安装 Kubernetes
+		Windows Kubernetes
+	最佳实践
+		运行于多可用区环境
+		大规模集群的注意事项
+		校验节点设置
+		Enforcing Pod Security Standards
+		PKI 证书和要求
+概念
+	概述
+		Kubernetes 是什么？
+			Kubernetes 组件
+			Kubernetes API
+			使用 Kubernetes 对象
+				理解 Kubernetes 对象
+				Kubernetes 对象管理
+				对象名称和 IDs
+				名字空间
+				标签和选择算符
+				注解
+				Finalizers
+				Owners and Dependents
+				字段选择器
+				推荐使用的标签
+	Kubernetes 架构
+		节点
+		控制面到节点通信
+		控制器
+		云控制器管理器
+		Garbage Collection (EN)
+	容器
+		镜像
+		容器环境
+		容器运行时类（Runtime Class）
+		容器生命周期回调
+	工作负载
+		Pods
+			Pod 的生命周期
+			Init 容器
+			Pod 拓扑分布约束
+			干扰（Disruptions）
+			临时容器
+		工作负载资源
+			Deployments
+			ReplicaSet
+			StatefulSets
+			DaemonSet
+			Jobs
+			垃圾收集
+			已完成资源的 TTL 控制器
+			CronJob
+			ReplicationController
+	服务、负载均衡和联网
+		使用拓扑键实现拓扑感知的流量路由
+		服务
+		Pod 与 Service 的 DNS
+		使用 Service 连接到应用
+		Ingress
+		Ingress 控制器
+		拓扑感知提示
+		服务内部流量策略
+		端点切片（Endpoint Slices）
+		网络策略
+		IPv4/IPv6 双协议栈
+	存储
+		卷
+		卷快照
+		持久卷
+		CSI 卷克隆
+		卷快照类
+		存储类
+		动态卷供应
+		存储容量
+		临时卷
+		卷健康监测
+		特定于节点的卷数限制
+	配置
+		配置最佳实践
+		ConfigMap
+		Secret
+		为容器管理资源
+		使用 kubeconfig 文件组织集群访问
+	安全
+		Pod 安全性标准
+		云原生安全概述
+		Pod Security Admission
+		Kubernetes API 访问控制
+	策略
+		限制范围
+		资源配额
+		Pod 安全策略
+		进程 ID 约束与预留
+		节点资源管理器
+	调度，抢占和驱逐
+		Kubernetes 调度器
+		将 Pod 分配给节点
+		Pod 开销
+		污点和容忍度
+		Pod 优先级和抢占
+		节点压力驱逐
+		API 发起的驱逐
+		扩展资源的资源装箱
+		调度框架
+		调度器性能调优
+	集群管理
+		证书
+		管理资源
+		集群网络系统
+		Kubernetes 系统组件指标
+		Traces For Kubernetes System Components
+		日志架构
+		系统日志
+		容器镜像的垃圾收集
+		Kubernetes 中的代理
+		API 优先级和公平性
+		安装扩展（Addons）
+	扩展 Kubernetes
+		扩展 Kubernetes API
+		Operator 模式
+		计算、存储和网络扩展
+		服务目录
+任务
+	安装工具
+		在 Linux 系统中安装并设置 kubectl
+		在 macOS 系统上安装和设置 kubectl
+		在 Windows 上安装 kubectl
+		Tools Included
+	管理集群
+		从 dockershim 迁移
+			检查弃用 Dockershim 对你的影响
+			从 dockershim 迁移遥测和安全代理
+		用 kubeadm 进行管理
+			使用 kubeadm 进行证书管理
+			配置 cgroup 驱动
+			升级 kubeadm 集群
+			添加 Windows 节点
+			升级 Windows 节点
+		管理内存，CPU 和 API 资源
+			为命名空间配置默认的内存请求和限制
+			为命名空间配置默认的 CPU 请求和限制
+			配置命名空间的最小和最大内存约束
+			为命名空间配置 CPU 最小和最大约束
+			为命名空间配置内存和 CPU 配额
+			配置命名空间下 Pod 配额
+		证书
+		安装网络规则驱动
+			Use Antrea for NetworkPolicy
+			使用 Calico 提供 NetworkPolicy
+			使用 Cilium 提供 NetworkPolicy
+			使用 kube-router 提供 NetworkPolicy
+			使用 Romana 提供 NetworkPolicy
+			使用 Weave Net 提供 NetworkPolicy
+		IP Masquerade Agent 用户指南
+		Kubernetes 云管理控制器
+		Running Kubernetes Node Components as a Non-root User
+		Set up a High-Availability Control Plane
+		Use Cascading Deletion in a Cluster
+		Utilizing the NUMA-aware Memory Manager
+		为 Kubernetes 运行 etcd 集群
+		为系统守护进程预留计算资源
+		为节点发布扩展资源
+		使用 CoreDNS 进行服务发现
+		使用 KMS 驱动进行数据加密
+		使用 Kubernetes API 访问集群
+		保护集群安全
+		关键插件 Pod 的调度保证
+		升级集群
+		名字空间演练
+		启用/禁用 Kubernetes API
+		启用拓扑感知提示
+		在 Kubernetes 集群中使用 NodeLocal DNSCache
+		在 Kubernetes 集群中使用 sysctl
+		在运行中的集群上重新配置节点的 kubelet
+		声明网络策略
+		安全地清空一个节点
+		将重复的控制平面迁至云控制器管理器
+		开发云控制器管理器
+		开启服务拓扑
+		控制节点上的 CPU 管理策略
+		控制节点上的拓扑管理策略
+		搭建高可用的 Kubernetes Masters
+		改变默认 StorageClass
+		更改 PersistentVolume 的回收策略
+		自动扩缩集群 DNS 服务
+		自定义 DNS 服务
+		访问集群上运行的服务
+		调试 DNS 问题
+		通过名字空间共享集群
+		通过配置文件设置 Kubelet 参数
+		配置 API 对象配额
+		配置资源不足时的处理方式
+		限制存储消耗
+		静态加密 Secret 数据
+	配置 Pods 和容器
+		为容器和 Pod 分配内存资源
+		Create a Windows HostProcess Pod
+		为 Windows Pod 和容器配置 GMSA
+		为 Windows 的 Pod 和容器配置 RunAsUserName
+		为容器和 Pods 分配 CPU 资源
+		配置 Pod 的服务质量
+		为容器分派扩展资源
+		配置 Pod 以使用卷进行存储
+		配置 Pod 以使用 PersistentVolume 作为存储
+		配置 Pod 使用投射卷作存储
+		为 Pod 或容器配置安全性上下文
+		为 Pod 配置服务账户
+		从私有仓库拉取镜像
+		配置存活、就绪和启动探测器
+		将 Pod 分配给节点
+		用节点亲和性把 Pods 分配到节点
+		配置 Pod 初始化
+		为容器的生命周期事件设置处理函数
+		配置 Pod 使用 ConfigMap
+		在 Pod 中的容器之间共享进程命名空间
+		创建静态 Pod
+		将 Docker Compose 文件转换为 Kubernetes 资源
+		Enforce Pod Security Standards by Configuring the Built-in Admission Controller
+		Enforce Pod Security Standards with Namespace Labels
+		Migrate from PodSecurityPolicy to the Built-In PodSecurity Admission Controller
+	管理 Kubernetes 对象
+		使用配置文件对 Kubernetes 对象进行声明式管理
+		使用 Kustomize 对 Kubernetes 对象进行声明式管理
+		使用指令式命令管理 Kubernetes 对象
+		使用配置文件对 Kubernetes 对象进行命令式管理
+		使用 kubectl patch 更新 API 对象
+	管理 Secrets
+		使用 kubectl 管理 Secret
+		使用配置文件管理 Secret
+		使用 Kustomize 管理 Secret
+	给应用注入数据
+		为容器设置启动时要执行的命令和参数
+		为容器设置环境变量
+		定义相互依赖的环境变量
+		通过环境变量将 Pod 信息呈现给容器
+		通过文件将 Pod 信息呈现给容器
+		使用 Secret 安全地分发凭证
+	运行应用
+		使用 Deployment 运行一个无状态应用
+		运行一个单实例有状态应用
+		运行一个有状态的应用程序
+		删除 StatefulSet
+		强制删除 StatefulSet 中的 Pods
+		Pod 水平自动扩缩
+		Horizontal Pod Autoscaler 演练
+		为应用程序设置干扰预算（Disruption Budget）
+		从 Pod 中访问 Kubernetes API
+		扩缩 StatefulSet
+	运行 Jobs
+		使用 CronJob 运行自动化任务
+		使用工作队列进行粗粒度并行处理
+		Indexed Job for Parallel Processing with Static Work Assignment
+		使用工作队列进行精细的并行处理
+		使用展开的方式进行并行处理
+	访问集群中的应用程序
+		Web 界面 (Dashboard)
+		访问集群
+		使用端口转发来访问集群中的应用
+		使用服务来访问集群中的应用
+		使用 Service 把前端连接到后端
+		创建外部负载均衡器
+		列出集群中所有运行容器的镜像
+		在 Minikube 环境中使用 NGINX Ingress 控制器配置 Ingress
+		为集群配置 DNS
+		同 Pod 内的容器使用共享卷通信
+		配置对多集群的访问
+	监控、日志和排错
+		使用 crictl 对 Kubernetes 节点进行调试
+		在本地开发和调试服务
+		审计
+		应用故障排查
+		应用自测与调试
+		故障诊断
+		确定 Pod 失败的原因
+		节点健康监测
+		获取正在运行容器的 Shell
+		调试 Init 容器
+		调试 Pods 和 ReplicationControllers
+		调试 Service
+		调试StatefulSet
+		调试运行中的 Pod
+		资源指标管道
+		资源监控工具
+		集群故障排查
+	扩展 Kubernetes
+		使用自定义资源
+		配置聚合层
+		安装一个扩展的 API server
+		配置多个调度器
+		使用 HTTP 代理访问 Kubernetes API
+		设置 Konnectivity 服务
+	TLS
+		为 kubelet 配置证书轮换
+		手动轮换 CA 证书
+		管理集群中的 TLS 认证
+	管理集群守护进程
+		对 DaemonSet 执行滚动更新
+		对 DaemonSet 执行回滚
+	安装服务目录
+		使用 Helm 安装 Service Catalog
+		使用 SC 安装服务目录
+	网络
+		使用 HostAliases 向 Pod /etc/hosts 文件添加条目
+		验证 IPv4/IPv6 双协议栈
+	用插件扩展 kubectl
+	管理巨页（HugePages）
+	调度 GPUs
+	配置 kubelet 镜像凭据提供程序
+教程
+	你好，Minikube
+	学习 Kubernetes 基础知识
+		创建集群
+			使用 Minikube 创建集群
+			交互式教程 - 创建集群
+		部署应用
+			使用 kubectl 创建 Deployment
+			交互式教程 - 部署应用
+		了解你的应用
+			查看 pod 和工作节点
+			交互式教程-了解你的应用
+		公开地暴露你的应用
+			使用 Service 暴露您的应用
+			交互式教程 - 暴露你的应用
+		缩放你的应用
+			运行应用程序的多个实例
+			交互教程 - 缩放你的应用
+		更新你的应用
+			执行滚动更新
+			交互式教程 - 更新你的应用
+	配置
+		示例：配置 java 微服务
+			使用 MicroProfile、ConfigMaps、Secrets 实现外部化应用配置
+			互动教程 - 配置 java 微服务
+		使用 ConfigMap 来配置 Redis
+	无状态应用程序
+		公开外部 IP 地址以访问集群中应用程序
+		示例：使用 Redis 部署 PHP 留言板应用程序
+	有状态的应用
+		示例：使用 Persistent Volumes 部署 WordPress 和 MySQL
+		示例：使用 StatefulSet 部署 Cassandra
+		运行 ZooKeeper，一个分布式协调系统
+		StatefulSet 基础
+	集群
+		使用 AppArmor 限制容器对资源的访问
+		使用 Seccomp 限制容器的系统调用
+	Services
+		使用 Source IP
+参考
+	词汇表
+	API 概述
+		Kubernetes API 概念
+		服务器端应用（Server-Side Apply）
+		客户端库
+		Kubernetes 弃用策略
+		Deprecated API Migration Guide
+		Kubernetes API 健康端点
+	常见的标签、注解和污点
+	访问 API
+		用户认证
+		使用启动引导令牌（Bootstrap Tokens）认证
+		证书签名请求
+		使用准入控制器
+		动态准入控制
+		管理服务账号
+		鉴权概述
+		使用 RBAC 鉴权
+		使用 Node 鉴权
+		Webhook 模式
+		使用 ABAC 鉴权
+	Kubernetes API
+	Kubernetes 问题和安全
+		Kubernetes 问题追踪
+		Kubernetes 安全和信息披露
+	安装工具
+		Kubeadm
+	kubectl
+		kubectl 概述
+		JSONPath 支持
+		kubectl
+		kubectl 命令
+		kubectl 备忘单
+		kubectl 的用法约定
+		适用于 Docker 用户的 kubectl
+	组件工具
+		特性门控
+		kubelet
+		kube-apiserver
+		kube-controller-manager
+		kube-proxy
+		kube-scheduler
+		Kubelet 认证/鉴权
+		TLS 启动引导
+	配置 API
+		Client Authentication (v1beta1)
+		kube-apiserver Audit Configuration (v1)
+		kube-apiserver Configuration (v1alpha1)
+		kube-proxy Configuration (v1alpha1)
+		kube-scheduler Configuration (v1beta1)
+		kube-scheduler Configuration (v1beta2)
+		kube-scheduler Policy Configuration (v1)
+		kubeadm Configuration (v1beta2)
+		kubeadm Configuration (v1beta3)
+		Kubelet Configuration (v1beta1)
+		WebhookAdmission Configuration (v1)
+	调度
+		调度策略
+		调度器配置
+	其他工具
+贡献
+	提出内容改进建议
+	贡献新内容
+		概述
+		发起拉取请求（PR）
+		为发行版本撰写文档
+		博客和案例分析
+	评阅变更
+		评阅 PRs
+		评阅人和批准人
+	本地化 Kubernetes 文档
+	参与 SIG Docs
+		角色与责任
+		PR 管理者
+	参考文档概述
+		为上游 Kubernetes 代码库做出贡献
+		快速入门
+		为 Kubernetes API 生成参考文档
+		为 kubectl 命令集生成参考文档
+		为 Kubernetes 组件和工具生成参考文档
+	文档样式概述
+		内容指南
+		样式指南
+		撰写新主题
+		页面内容类型
+		内容组织
+		定制 Hugo 短代码
+	高级贡献
+	查看站点分析
+	中文本地化样式指南
+测试页面（中文版）

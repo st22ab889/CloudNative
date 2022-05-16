@@ -1,0 +1,13 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "npm",
+			"script": "start",
+			"path": "77DevOps 完整示例1/spring-security-react-ant-design-polls-app/polling-app-client/",
+			"problemMatcher": [],
+			"label": "npm: start - 77DevOps 完整示例1/spring-security-react-ant-design-polls-app/polling-app-client",
+			"detail": "react-app-rewired start"
+		}
+	]
+}

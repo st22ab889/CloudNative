@@ -1,0 +1,14 @@
+persistence:
+  enabled: true
+  persistentVolumeClaim:
+    database:
+      storageClass: "database"
+
+database:
+  type: internal
+  internal:
+    database: "polling"
+    # 数据库用户
+    username: "polling"
+    # 数据库用户密码
+    password: "polling321"

@@ -1,0 +1,45 @@
+
+// 1. 通过 ServiceAccount 对象来获取 CA 证书和 token
+[root@centos7 docker-kubectl]#  kubectl get serviceaccount gitlab -n gitlab -o json | jq -r '.secrets[0].name'
+gitlab-token-g4ntv
+
+
+[root@centos7 docker-kubectl]# kubectl get secret gitlab-token-g4ntv -n gitlab -o json | jq -r '.data["ca.crt"]' | base64 -d
+-----BEGIN CERTIFICATE-----
+MIIC/jCCAeagAwIBAgIBADANBgkqhkiG9w0BAQsFADAVMRMwEQYDVQQDEwprdWJl
+cm5ldGVzMB4XDTIxMDgyMzE0NDkwOVoXDTMxMDgyMTE0NDkwOVowFTETMBEGA1UE
+AxMKa3ViZXJuZXRlczCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAPlZ
+mT0BpnTJUpsmzrcil8vZF4y4zp2YfLBNzgzPTXoyEL33XjOuj5hkVCYfVbtMLj8B
+lZ6bYCI+kpdtrMpUi4TpR5ZzKXPDHt055cvEilByzwRK29JjUBnfmi1Iz78EkZ6b
+Q89G9XOJ9VxekUFE2KJa/26OcuZsj2AgF23a73oZ7dA8DXO4ieVz+2ZJZBrW16Fu
+EXPK9amL3qk/j5h6A1oW4uR9ZNcrVanULxRbMl81uGbTS9d70dLf/i7qKXEp1RG9
+XbwyIKDFPuYXoGWmVeSnZnxtfOy0IeEsuJ0W4dlsK58ykvPAzCfD/rFEEnpZDNqk
+PBpbE1yUKI3VtGxSZB0CAwEAAaNZMFcwDgYDVR0PAQH/BAQDAgKkMA8GA1UdEwEB
+/wQFMAMBAf8wHQYDVR0OBBYEFHpGdRo3ypQLos/sRnj9HiRfhb5qMBUGA1UdEQQO
+MAyCCmt1YmVybmV0ZXMwDQYJKoZIhvcNAQELBQADggEBAD2AU8aXnSB8vVh9+JJO
+5/mWlSsyYtHpZ+H7YG3YlUp43Ub3Lk/LK4W8uAnTMcjua7SdwstOYzf7H7Yl6U3k
+IpqWqATLS2VvNTta6i8XHCdm3+v88Rr9u6XpogWudb0nEOgJnBtCgpvXOEJgvraV
+IM75h3tAe2kijweU/TEcoFbtbGKawGu/gf7OixtS1aYiWGqD6GcxFMqIgqGWskav
+5S8JLBQWDybtnZKQz2WaB4QAZzEMVZfr72JDlXdIx4QiLVhIo5D73G1ilT/Kz+5G
+AEwxf4FiuzGMR2ZYcyC/E0lhNUuPAFmTYi0ztV70LjvkHYxUKUIyUt8yeBCWjdFw
+Lps=
+-----END CERTIFICATE-----
+
+
+[root@centos7 docker-kubectl]# kubectl get secret gitlab-token-g4ntv  -n gitlab -o json | jq -r '.data.token' | base64 -d
+eyJhbGciOiJSUzI1NiIsImtpZCI6ImdWOE1QTFdNQTdtZndGUnprZjdfTF9fbDlMTEN5ejRKb1dnSFV3c3Y0UzQifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJnaXRsYWIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlY3JldC5uYW1lIjoiZ2l0bGFiLXRva2VuLWc0bnR2Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImdpdGxhYiIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50LnVpZCI6ImYwNTEwNzEwLWY3ZjgtNDI0ZC05YTcyLWNhNGJkYzQzNjY5ZCIsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDpnaXRsYWI6Z2l0bGFiIn0.HTDbMsZzsa0QLYo3J9LH0AEnlcYxW4on8ECQnzzxhPGxe30M1Sj1B7RYyDcwX198Q8A9BRhlVyUtfbkrn2wLMRwgYM_Mrb3VV9AGif-47TOLJ6AZVrZMb1gGdUCqwBCjOA0pMdli6boE4xrzmE991ebTl-do_NIya-VLHmEDkNzDPsTNfOHBhIAvAoH4eYR57N0DyjZb6Yk3hbMMi81fJklzDjoiRbSfGNVUuQVxmF5K2JLtuHU8sdG4FPjrpRqGDe6RI8_nwhoWU_cvhckzxIMiXJ47iLrI0-DL7PPkHBktgsbE_0v-6iCVlkCdOc_GeZn2UEhc-7pm5E7gvckuGQ
+[root@centos7 docker-kubectl]# 
+
+// 2. git相关命令
+git clone git@gitee.com:st22ab889/gitlab-ci-k8s-demo.git
+// 更改远程仓库地址
+git remote set-url origin ssh://git@git.aaron.com:30022/root/presentation-gitlab-k8s.git
+git push -u origin master
+
+// 3. github 和 docker hub 地址
+https://github.com/st22ab889
+https://hub.docker.com/repositories
+
+// 4. kubectl 进入到容器命令
+kubectl -n kube-ops exec gitlab-ci-runner-0 -i -t -- bash -il
+kubectl -n kube-ops exec gitlab-ci-runner-0 -i -t -- bash -il

@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: httpbin-cert
+  namespace: istio-system  # 这里必须是 istio-system 空间
+spec:
+  secretName: xip-cert     # 这个就是上面 gateway 所配置的证书名称
+  issuerRef:
+    kind: ClusterIssuer
+    name: letsencrypt-staging
+  commonName: httpbin.192.168.32.100.xip.io
+  dnsNames:
+  - httpbin.192.168.32.100.xip.io

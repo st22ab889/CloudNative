@@ -1,0 +1,8 @@
+course:
+  k8s: DevOps
+  python: Tornado
+courselist:
+  - k8s
+  - python
+  - golang
+  - java

@@ -1,0 +1,61 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: traefik-ingress-controller
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: traefik
+  labels:
+    app: traefik
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: traefik
+  template:
+    metadata:
+      labels:
+        app: traefik
+    spec:
+      serviceAccountName: traefik-ingress-controller
+      containers:
+        - name: traefik
+          image: traefik:v2.6
+          args:
+            - --entrypoints.websecure.address=:443
+            - --entrypoints.websecure.http.tls
+            - --providers.kubernetesingress
+            - --api.dashboard=true
+            - --providers.file.directory=/path/to/dynamic/conf
+            # disables SSL certificate verification. 
+            # detail info: https://doc.traefik.io/traefik/routing/overview/#transport-configuration
+            - --serversTransport.insecureSkipVerify=true
+          ports:
+            - name: websecure
+              containerPort: 443
+          volumeMounts:
+            - name: dynamic-conf
+              mountPath: /path/to/dynamic/conf
+      volumes:
+      - name: dynamic-conf
+        configMap:
+          name: traefik-dynamic-conf
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: traefik
+spec:
+  # type: LoadBalancer
+  type: NodePort
+  selector:
+    app: traefik
+  ports:
+    - protocol: TCP
+      port: 443
+      name: websecure
+      targetPort: 443

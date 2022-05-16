@@ -1,0 +1,6 @@
+course:
+  k8s: DevOps
+  python: Tornado
+
+mysubchart:
+  in: parent

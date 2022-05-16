@@ -1,0 +1,17 @@
+# 需要提前下载 kubectl
+
+FROM alpine:3.8
+
+MAINTAINER aaron <kkk_en@163.com>
+
+COPY kubectl /usr/local/bin/kubectl
+RUN apk add --update ca-certificates \
+ && apk add --update -t deps curl \
+ && apk add --update gettext \
+ && apk add --update git \
+ && chmod +x /usr/local/bin/kubectl \
+ && apk del --purge deps \
+ && rm /var/cache/apk/*
+
+ ENTRYPOINT ["kubectl"]
+ CMD ["--help"]

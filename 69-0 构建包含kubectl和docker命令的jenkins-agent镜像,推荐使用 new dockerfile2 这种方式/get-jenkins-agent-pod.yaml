@@ -1,0 +1,141 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    cni.projectcalico.org/containerID: a352947ee72ebfcd91af4bf7a87e0af70f695335bcea357826906c557548c676
+    cni.projectcalico.org/podIP: 10.244.189.139/32
+    cni.projectcalico.org/podIPs: 10.244.189.139/32
+  creationTimestamp: "2021-10-01T12:04:35Z"
+  labels:
+    jenkins: jnlp-agent
+    jenkins/label: hello-ops
+    jenkins/label-digest: d18be99016331493e63a47dfe36ad34a2cdc8ab0
+  name: jnlp-agent-mh6r3
+  namespace: kube-ops
+  resourceVersion: "1078021"
+  selfLink: /api/v1/namespaces/kube-ops/pods/jnlp-agent-mh6r3
+  uid: a5e7862e-2d65-46a3-9a0c-faf1876bd77b
+spec:
+  containers:
+  - env:
+    - name: JENKINS_SECRET
+      value: 3276e7cd26b93c15dc736c42916516f5576b5fb7be8fa073fc91751f8d242f8e
+    - name: JENKINS_AGENT_NAME
+      value: jnlp-agent-mh6r3
+    - name: JENKINS_NAME
+      value: jnlp-agent-mh6r3
+    - name: JENKINS_AGENT_WORKDIR
+      value: /home/jenkins
+    - name: JENKINS_URL
+      value: http://jenkins.kube-ops.svc.cluster.local:8080/
+    image: inbound-agent-docker:4.3-4
+    imagePullPolicy: IfNotPresent
+    name: jnlp
+    resources: {}
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /home/jenkins/.kube
+      name: volume-0
+    - mountPath: /var/run/docker.sock
+      name: volume-2
+    - mountPath: /usr/bin/docker
+      name: volume-1
+    - mountPath: /home/jenkins
+      name: workspace-volume
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-vmsp2
+      readOnly: true
+    workingDir: /home/jenkins
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  nodeName: centos7.node
+  nodeSelector:
+    kubernetes.io/os: linux
+  preemptionPolicy: PreemptLowerPriority
+  priority: 0
+  restartPolicy: Never
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: jenkins
+  serviceAccountName: jenkins
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - hostPath:
+      path: /root/.kube
+      type: ""
+    name: volume-0
+  - hostPath:
+      path: /var/run/docker.sock
+      type: ""
+    name: volume-2
+  - hostPath:
+      path: /usr/bin/docker
+      type: ""
+    name: volume-1
+  - emptyDir: {}
+    name: workspace-volume
+  - name: kube-api-access-vmsp2
+    projected:
+      defaultMode: 420
+      sources:
+      - serviceAccountToken:
+          expirationSeconds: 3607
+          path: token
+      - configMap:
+          items:
+          - key: ca.crt
+            path: ca.crt
+          name: kube-root-ca.crt
+      - downwardAPI:
+          items:
+          - fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+            path: namespace
+status:
+  conditions:
+  - lastProbeTime: null
+    lastTransitionTime: "2021-10-01T12:04:35Z"
+    status: "True"
+    type: Initialized
+  - lastProbeTime: null
+    lastTransitionTime: "2021-10-01T12:04:36Z"
+    status: "True"
+    type: Ready
+  - lastProbeTime: null
+    lastTransitionTime: "2021-10-01T12:04:36Z"
+    status: "True"
+    type: ContainersReady
+  - lastProbeTime: null
+    lastTransitionTime: "2021-10-01T12:04:35Z"
+    status: "True"
+    type: PodScheduled
+  containerStatuses:
+  - containerID: docker://3b875415f7972131137ec34abf61b899fa0f9f9e9353bc2f37599443a18a0064
+    image: inbound-agent-docker:4.3-4
+    imageID: docker://sha256:34f0238914a2daae2adef3a2063ef7ba5d85c427605877b4351f06c0c6cd946f
+    lastState: {}
+    name: jnlp
+    ready: true
+    restartCount: 0
+    started: true
+    state:
+      running:
+        startedAt: "2021-10-01T12:04:36Z"
+  hostIP: 192.168.32.101
+  phase: Running
+  podIP: 10.244.189.139
+  podIPs:
+  - ip: 10.244.189.139
+  qosClass: BestEffort
+  startTime: "2021-10-01T12:04:35Z"
